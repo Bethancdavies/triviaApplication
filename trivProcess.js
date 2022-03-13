@@ -78,6 +78,8 @@ function runTriviaApp() {
 
   function handleSubmit(event) {
     event.preventDefault();
+    // get user entries on submit //
+
     let userapiTriviaText1 = document.querySelector('#apiTriviaText1').value;
     let userapiTriviaText2 = document.querySelector('#apiTriviaText2').value;
 
