@@ -32,10 +32,10 @@ function runTriviaApp() {
   let correctAnswerSelect2;
   let correctAnswerRadio1;
   let correctAnswerRadio2;
-
+  // To do - load only once api request is back
   // API CALL
   const getQuestions = async () => {
-    const triviaQuestionCall = await fetch(url); //often gives CORS error, fix in future
+    const triviaQuestionCall = await fetch(url); //often gives CORS error, fix in future via server
     const triviaJson = await triviaQuestionCall.json(); //extract JSON from the http response
     // gets labels for questions and updates text content
     function getLabels() {
@@ -58,7 +58,6 @@ function runTriviaApp() {
           answerList[index].labels[0].textContent = answers[index];
         }
         //  assign values to options
-
         answerList[index].value = answers[index];
       }
       return correctAnswer;
@@ -75,22 +74,41 @@ function runTriviaApp() {
 
   const form = document.querySelector('form');
   form.addEventListener('submit', handleSubmit);
+  const results = document.querySelector('#myResults');
 
   function handleSubmit(event) {
     event.preventDefault();
-    // get user entries on submit //
+    // get user entries on submit // validate these before assigning
 
     let userapiTriviaText1 = document.querySelector('#apiTriviaText1').value;
     let userapiTriviaText2 = document.querySelector('#apiTriviaText2').value;
+    let userapiTriviaSelect1 = document.querySelector('#apiTriviaSelect1').value;
+    let userapiTriviaSelect2 = document.querySelector('#apiTriviaSelect2').value;
 
     answers3.forEach((answer) => {
       if (answer.checked) {
-        console.log(answer.value);
+        userapiTriviaRadio1 = answer.value;
       }
     });
+    answers4.forEach((answer) => {
+      if (answer.checked) {
+        userapiTriviaRadio2 = answer.value;
+      }
+    });
+    console.log(userapiTriviaText1);
+    console.log(userapiTriviaText2);
+    console.log(userapiTriviaSelect1);
+    console.log(userapiTriviaSelect2);
+    console.log(userapiTriviaRadio1);
+    console.log(userapiTriviaRadio2);
+
+    //only show if submits correctly
   }
   function calculateScore() {}
   // show score function
-  function showScore() {}
+  function showScore() {
+    //run this function if all info is correct
+    results.classList.remove('hidden');
+  }
 }
 runTriviaApp();
