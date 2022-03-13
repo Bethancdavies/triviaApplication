@@ -8,42 +8,47 @@
 
 function runTriviaApp() {
   //API constants
-  const url = 'https://the-trivia-api.com/questions?categories=sport&leisure%2Cfilm&tv%2Cmusic&limit=4';
-  const fetchObject = {
-    method: 'GET',
-    headers: {},
-  };
+  const url = 'https://the-trivia-api.com/questions?categories=music&limit=6';
+
   // question labels
+  const text1Label = document.querySelector('#apiTriviaText1Label');
+  const text2Label = document.querySelector('#apiTriviaText2Label');
   const select1Label = document.querySelector('#apiTriviaSelect1Label');
   const select2Label = document.querySelector('#apiTriviaSelect2Label');
   const radio1Label = document.querySelector('#apiTriviaRadio1Legend');
   const radio2Label = document.querySelector('#apiTriviaRadio2Legend');
   // array of labels
-  const arrayOfLabels = [select1Label, select2Label, radio1Label, radio2Label];
-  // answer arrays
+  const arrayOfLabels = [text1Label, text2Label, select1Label, select2Label, radio1Label, radio2Label];
+
+  // option arrays (populated to include incorrect and correct answers for multiple choice inputs)
   const answers1 = document.querySelector('#apiTriviaSelect1').options;
   const answers2 = document.querySelector('#apiTriviaSelect2').options;
-  const answers3 = document.querySelectorAll('input[name = question3]');
-  const answers4 = document.querySelectorAll('input[name = question4]');
+  const answers3 = document.querySelectorAll('input[name = apiTriviaRadio1]');
+  const answers4 = document.querySelectorAll('input[name = apiTriviaRadio2]');
+  // correct answers constants
+  let correctAnswerText1;
+  let correctAnswerText2;
+  let correctAnswerSelect1;
+  let correctAnswerSelect2;
+  let correctAnswerRadio1;
+  let correctAnswerRadio2;
 
   // API CALL
   const getQuestions = async () => {
-    const triviaQuestionCall = await fetch(url);
+    const triviaQuestionCall = await fetch(url); //often gives CORS error, fix in future
     const triviaJson = await triviaQuestionCall.json(); //extract JSON from the http response
-    // Use API for dropdowns and multiple choice- 4 questions returned from one call
     // gets labels for questions and updates text content
     function getLabels() {
       for (let index = 0; index < triviaJson.length; index++) {
         arrayOfLabels[index].textContent = triviaJson[index].question;
       }
     }
-    getLabels(); // put in right place eventually
+    getLabels();
     function getAnswers(questionNumber, answerList) {
       let answers = triviaJson[questionNumber].incorrectAnswers; //capture incorrect answers
       let correctAnswer = triviaJson[questionNumber].correctAnswer; //capture correct answer
       answers.push(correctAnswer); // create array of all answers
-      //shuffle answers list
-
+      //shuffle answers list TO DO
       for (let index = 0; index < answerList.length; index++) {
         // populate textContent
         if (answerList === answers1 || answerList === answers2) {
@@ -53,26 +58,36 @@ function runTriviaApp() {
           answerList[index].labels[0].textContent = answers[index];
         }
         //  assign values to options
+
         answerList[index].value = answers[index];
       }
       return correctAnswer;
     }
     // call getAnswers and assign the return value of the correct answer to a variable
-    let correctAnswer1 = getAnswers(0, answers1);
-    let correctAnswer2 = getAnswers(1, answers2);
-    let correctAnswer3 = getAnswers(2, answers3);
-    let correctAnswer4 = getAnswers(3, answers4);
+    correctAnswerText1 = triviaJson[0].correctAnswer;
+    correctAnswerText2 = triviaJson[1].correctAnswer;
+    correctAnswerSelect1 = getAnswers(2, answers1);
+    correctAnswerSelect2 = getAnswers(3, answers2);
+    correctAnswerRadio1 = getAnswers(4, answers3);
+    correctAnswerRadio2 = getAnswers(5, answers4);
   };
-  getQuestions(); // put this in the right place?
+  getQuestions();
 
   const form = document.querySelector('form');
+  form.addEventListener('submit', handleSubmit);
 
-  //handle submit of form  (see above for whats needed)
-  function handleSubmit() {
-    function validateTextBoxes1() {}
-    function validateTextBoxes2() {}
+  function handleSubmit(event) {
+    event.preventDefault();
+    let userapiTriviaText1 = document.querySelector('#apiTriviaText1').value;
+    let userapiTriviaText2 = document.querySelector('#apiTriviaText2').value;
+
+    answers3.forEach((answer) => {
+      if (answer.checked) {
+        console.log(answer.value);
+      }
+    });
   }
-
+  function calculateScore() {}
   // show score function
   function showScore() {}
 }
