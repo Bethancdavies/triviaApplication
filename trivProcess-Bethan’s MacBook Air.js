@@ -61,7 +61,7 @@ function runTriviaApp() {
       answers = shuffle(answers);
       // if is a select input add an empty string to the start of the array
       if (answerList === answers1 || answerList === answers2) {
-        answers.unshift(' ');
+        answers.unshift('');
       }
 
       for (let index = 0; index < answerList.length; index++) {
@@ -100,24 +100,14 @@ function runTriviaApp() {
   let userapiTriviaRadio2;
 
   function validate() {
-    validateTextOrSelect(document.querySelector('#apiTriviaText1'));
-    validateTextOrSelect(document.querySelector('#apiTriviaText2'));
-    validateTextOrSelect(document.querySelector('#apiTriviaSelect1'));
-    validateTextOrSelect(document.querySelector('#apiTriviaSelect2'));
     function validateTextOrSelect(element) {
-      if (element.value == ' ' || !isNaN(element.value)) {
-        element.parentElement.focus();
+      if (element.value == '' || !isNaN(element.value)) {
+        element.focus();
         element.parentElement.classList.add('error');
       } else {
         element.parentElement.classList.remove('error');
-        return true;
       }
     }
-    function validateRadio(element) {}
-    // TO DO
-    // validate all information
-    // return true if all are true
-    // keep button disbaled
   }
 
   answers3.forEach((answer) => {
