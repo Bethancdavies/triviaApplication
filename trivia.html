@@ -62,7 +62,7 @@
         <!-- dropdown 1  -->
         <fieldset>
           <div class="form-group">
-            <legend for="apiTriviaSelect1" id="apiTriviaSelect1Label"></legend>
+            <legend for="apiTriviaSelect1" id="apiTriviaSelect1Label">Legend</legend>
             <select class="form-control" id="apiTriviaSelect1" required>
               <option></option>
               <option></option>
@@ -75,7 +75,7 @@
         <!-- dropdown 2 -->
         <fieldset>
           <div class="form-group">
-            <legend id="apiTriviaSelect2Label"></legend>
+            <legend id="apiTriviaSelect2Label">Legend</legend>
             <select class="form-control" id="apiTriviaSelect2" required>
               <option></option>
               <option></option>
@@ -87,41 +87,41 @@
         </fieldset>
         <!-- radio buttons 1 -->
         <fieldset id="apiTriviaRadio1">
-          <legend id="apiTriviaRadio1Legend"></legend>
+          <legend id="apiTriviaRadio1Legend">Legend</legend>
           <div class="form-check">
             <input class="form-check-input" type="radio" name="apiTriviaRadio1" id="a" required />
-            <label class="form-check-label" for="a"> Default radio </label>
+            <label class="form-check-label" for="a"></label>
           </div>
           <div class="form-check">
             <input class="form-check-input" type="radio" name="apiTriviaRadio1" id="b" required />
-            <label class="form-check-label" for="b"> Default radio </label>
+            <label class="form-check-label" for="b"> </label>
           </div>
           <div class="form-check">
             <input class="form-check-input" type="radio" name="apiTriviaRadio1" id="c" required />
-            <label class="form-check-label" for="c"> Default radio </label>
+            <label class="form-check-label" for="c"> </label>
           </div>
           <div class="form-check">
             <input class="form-check-input" type="radio" name="apiTriviaRadio1" id="d" required />
-            <label class="form-check-label" for="d"> Default radio </label>
+            <label class="form-check-label" for="d"></label>
           </div>
         </fieldset>
         <fieldset id="apiTriviaRadio2">
-          <legend id="apiTriviaRadio2Legend"></legend>
+          <legend id="apiTriviaRadio2Legend">Legend</legend>
           <div class="form-check">
             <input class="form-check-input" type="radio" name="apiTriviaRadio2" id="e" />
-            <label class="form-check-label" for="e"> Default radio </label>
+            <label class="form-check-label" for="e"></label>
           </div>
           <div class="form-check">
             <input class="form-check-input" type="radio" name="apiTriviaRadio2" id="f" />
-            <label class="form-check-label" for="f"> Default radio </label>
+            <label class="form-check-label" for="f"> </label>
           </div>
           <div class="form-check">
             <input class="form-check-input" type="radio" name="apiTriviaRadio2" id="g" />
-            <label class="form-check-label" for="g"> Default radio </label>
+            <label class="form-check-label" for="g"></label>
           </div>
           <div class="form-check">
             <input class="form-check-input" type="radio" name="apiTriviaRadio2" id="h" />
-            <label class="form-check-label" for="h"> Default radio </label>
+            <label class="form-check-label" for="h"> </label>
           </div>
         </fieldset>
         <button class="btn btn-primary" type="submit">Submit form</button>
@@ -129,11 +129,13 @@
       <div class="container hidden" id="myResults">
         <h2>Your Results</h2>
         <div>
-          <p>You got <span></span> correct</p>
-          <p>You got <span></span> incorrect</p>
-          <p>Your score is: <span></span></p>
+          <p>You got <span id="numberOfCorrectAnswers"></span> answers correct</p>
+          <p>Your score is: <span id="scorePercentage"></span> %</p>
+          <button class="btn btn-primary" type="button" id="seeAnswers">See Answers?</button>
+          <button class="btn btn-primary" type="button" id="playAgain">Play Again?</button>
         </div>
       </div>
+      <div class="container hidden" id="answersDiv"></div>
     </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
