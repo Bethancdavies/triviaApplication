@@ -47,8 +47,23 @@ function runTriviaApp() {
     function getAnswers(questionNumber, answerList) {
       let answers = triviaJson[questionNumber].incorrectAnswers; //capture incorrect answers
       let correctAnswer = triviaJson[questionNumber].correctAnswer; //capture correct answer
-      answers.push(correctAnswer); // create array of all answers
-      //shuffle answers list TO DO
+      answers.push(correctAnswer); // add correct answer to incorrect answers array
+      //shuffle answers - found at https://bost.ocks.org/mike/shuffle/
+      function shuffle(a) {
+        for (let i = a.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+      }
+      // shuffle array
+
+      answers = shuffle(answers);
+      // if is a select input add an empty string to the start of the array
+      if (answerList === answers1 || answerList === answers2) {
+        answers.unshift(' ');
+      }
+
       for (let index = 0; index < answerList.length; index++) {
         // populate textContent
         if (answerList === answers1 || answerList === answers2) {
@@ -72,18 +87,57 @@ function runTriviaApp() {
   };
   getQuestions();
 
-  const form = document.querySelector('form');
+  const form = document.querySelector('.needs-validation');
   form.addEventListener('submit', handleSubmit);
+  document.body.addEventListener('change', validate);
   const results = document.querySelector('#myResults');
+
+  let userapiTriviaText1 = document.querySelector('#apiTriviaText1').value;
+  let userapiTriviaText2 = document.querySelector('#apiTriviaText2').value;
+  let userapiTriviaSelect1 = document.querySelector('#apiTriviaSelect1').value;
+  let userapiTriviaSelect2 = document.querySelector('#apiTriviaSelect2').value;
+  let userapiTriviaRadio1;
+  let userapiTriviaRadio2;
+
+  window.addEventListener(
+    'load',
+    function () {
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      const forms = document.getElementsByClassName('needs-validation');
+      // Loop over them and prevent submission
+      let validation = Array.prototype.filter.call(forms, function (form) {
+        form.addEventListener(
+          'submit',
+          function (event) {
+            if (form.checkValidity() === false) {
+              event.preventDefault();
+              event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+          },
+          false
+        );
+      });
+    },
+    false
+  );
+
+  function validate() {}
+
+  answers3.forEach((answer) => {
+    if (answer.checked) {
+      userapiTriviaRadio1 = answer.value;
+    }
+  });
+  answers4.forEach((answer) => {
+    if (answer.checked) {
+      userapiTriviaRadio2 = answer.value;
+    }
+  });
 
   function handleSubmit(event) {
     event.preventDefault();
     // get user entries on submit // validate these before assigning
-
-    let userapiTriviaText1 = document.querySelector('#apiTriviaText1').value;
-    let userapiTriviaText2 = document.querySelector('#apiTriviaText2').value;
-    let userapiTriviaSelect1 = document.querySelector('#apiTriviaSelect1').value;
-    let userapiTriviaSelect2 = document.querySelector('#apiTriviaSelect2').value;
 
     answers3.forEach((answer) => {
       if (answer.checked) {
@@ -95,17 +149,21 @@ function runTriviaApp() {
         userapiTriviaRadio2 = answer.value;
       }
     });
-    console.log(userapiTriviaText1);
-    console.log(userapiTriviaText2);
-    console.log(userapiTriviaSelect1);
-    console.log(userapiTriviaSelect2);
-    console.log(userapiTriviaRadio1);
-    console.log(userapiTriviaRadio2);
+
+    calculateScore();
+    function calculateScore() {
+      let score = 0;
+      let correctAnswers = 0;
+      const totalQuestions = 7;
+      if (userapiTriviaSelect1 === correctAnswerSelect1) {
+        console.log('correct');
+      }
+      showScore();
+    }
 
     //only show if submits correctly
   }
-  function calculateScore() {}
-  // show score function
+
   function showScore() {
     //run this function if all info is correct
     results.classList.remove('hidden');

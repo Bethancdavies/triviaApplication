@@ -23,16 +23,16 @@
     2 multiple choice questions (using radio buttons, 4 options min)
     1 choose-all-that-apply (checkboxes, 4 options min, one answer should be "None of the above"). No part-points for semi-correct answers. -->
 
-      <form>
+      <form class="needs-validation" novalidate>
         <!-- text box 1  -->
         <div class="form-group">
           <label id="apiTriviaText1Label">Question</label>
-          <input type="text" class="form-control" id="apiTriviaText1" />
+          <input type="text" class="form-control" id="apiTriviaText1" required />
         </div>
         <!-- text box 2 -->
         <div class="form-group">
           <label id="apiTriviaText2Label">Question</label>
-          <input type="text" class="form-control" id="apiTriviaText2" />
+          <input type="text" class="form-control" id="apiTriviaText2" required />
         </div>
         <!-- checkboxes (4 options, 1 must be none of the above) -->
         <fieldset>
@@ -63,7 +63,8 @@
         <fieldset>
           <div class="form-group">
             <legend for="apiTriviaSelect1" id="apiTriviaSelect1Label"></legend>
-            <select class="form-control" id="apiTriviaSelect1">
+            <select class="form-control" id="apiTriviaSelect1" required>
+              <option></option>
               <option></option>
               <option></option>
               <option></option>
@@ -75,7 +76,8 @@
         <fieldset>
           <div class="form-group">
             <legend id="apiTriviaSelect2Label"></legend>
-            <select class="form-control" id="apiTriviaSelect2">
+            <select class="form-control" id="apiTriviaSelect2" required>
+              <option></option>
               <option></option>
               <option></option>
               <option></option>
@@ -87,19 +89,19 @@
         <fieldset id="apiTriviaRadio1">
           <legend id="apiTriviaRadio1Legend"></legend>
           <div class="form-check">
-            <input class="form-check-input" type="radio" name="apiTriviaRadio1" id="a" />
+            <input class="form-check-input" type="radio" name="apiTriviaRadio1" id="a" required />
             <label class="form-check-label" for="a"> Default radio </label>
           </div>
           <div class="form-check">
-            <input class="form-check-input" type="radio" name="apiTriviaRadio1" id="b" />
+            <input class="form-check-input" type="radio" name="apiTriviaRadio1" id="b" required />
             <label class="form-check-label" for="b"> Default radio </label>
           </div>
           <div class="form-check">
-            <input class="form-check-input" type="radio" name="apiTriviaRadio1" id="c" />
+            <input class="form-check-input" type="radio" name="apiTriviaRadio1" id="c" required />
             <label class="form-check-label" for="c"> Default radio </label>
           </div>
           <div class="form-check">
-            <input class="form-check-input" type="radio" name="apiTriviaRadio1" id="d" />
+            <input class="form-check-input" type="radio" name="apiTriviaRadio1" id="d" required />
             <label class="form-check-label" for="d"> Default radio </label>
           </div>
         </fieldset>
@@ -122,7 +124,7 @@
             <label class="form-check-label" for="h"> Default radio </label>
           </div>
         </fieldset>
-        <input type="submit" value="Submit" />
+        <button class="btn btn-primary" type="submit">Submit form</button>
       </form>
       <div class="container hidden" id="myResults">
         <h2>Your Results</h2>
