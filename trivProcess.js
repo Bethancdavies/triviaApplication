@@ -15,24 +15,38 @@ function runTriviaApp() {
   const answers2 = document.querySelector('#apiTriviaSelect2').options;
   const answers3 = document.querySelectorAll('input[name = apiTriviaRadio1]');
   const answers4 = document.querySelectorAll('input[name = apiTriviaRadio2]');
-  // correct answers constants
+  // correct answers variables
   let correctAnswerText1;
   let correctAnswerText2;
   let correctAnswerSelect1;
   let correctAnswerSelect2;
   let correctAnswerRadio1;
   let correctAnswerRadio2;
+  // array to hold correct answers
+  let arrayOfAnswers;
+
+  //user guesses variables
+
+  let userapiTriviaText1;
+  let userapiTriviaText2;
+  let userapiTriviaSelect1;
+  let userapiTriviaSelect2;
+  let userapiTriviaRadio1;
+  let userapiTriviaRadio2;
+
   // forms and results
   const form = document.querySelector('.needs-validation');
   const results = document.querySelector('#myResults');
   const answersDiv = document.querySelector('#answersDiv');
   // submit, play again, and see answer buttons
   const seeAnswersButton = document.querySelector('#seeAnswers');
-  const playAgainButton = document.querySelector('#playAgain');
+  const playAgainButton = document.querySelectorAll('.playAgain');
 
   //Event Listeners
   seeAnswersButton.addEventListener('click', seeAnswers);
-  playAgainButton.addEventListener('click', playAgain);
+  playAgainButton.forEach((button) => {
+    button.addEventListener('click', playAgain);
+  });
   form.addEventListener('submit', handleSubmit);
   document.body.addEventListener('change', validate);
 
@@ -146,12 +160,11 @@ function runTriviaApp() {
       let correctAnswers = 0;
       const totalQuestions = 7;
       // get value of .value questions
-      let userapiTriviaText1 = document.querySelector('#apiTriviaText1').value;
-      let userapiTriviaText2 = document.querySelector('#apiTriviaText2').value;
-      let userapiTriviaSelect1 = document.querySelector('#apiTriviaSelect1').value;
-      let userapiTriviaSelect2 = document.querySelector('#apiTriviaSelect2').value;
-      let userapiTriviaRadio1;
-      let userapiTriviaRadio2;
+      userapiTriviaText1 = document.querySelector('#apiTriviaText1').value;
+      userapiTriviaText2 = document.querySelector('#apiTriviaText2').value;
+      userapiTriviaSelect1 = document.querySelector('#apiTriviaSelect1').value;
+      userapiTriviaSelect2 = document.querySelector('#apiTriviaSelect2').value;
+
       //get value of radio buttons
       answers3.forEach((answer) => {
         if (answer.checked) {
@@ -200,9 +213,14 @@ function runTriviaApp() {
   }
 
   function seeAnswers(event) {
-    let output = ` <p> ${answers1}`;
-    answersDiv.insertAdjacentHTML(output);
-
+    // create array of answers
+    arrayOfAnswers = [correctAnswerText1, correctAnswerText2, correctAnswerSelect1, correctAnswerSelect2, correctAnswerRadio1, correctAnswerRadio2];
+    let output = '';
+    for (let index = 0; index < arrayOfLabels.length; index++) {
+      output += `<p>Question: ${index + 1}: ${arrayOfLabels[index].innerHTML}</p> 
+      <p>Answer: ${arrayOfAnswers[index]} </p> `;
+    }
+    answersDiv.insertAdjacentHTML('afterbegin', output);
     results.classList.add('hidden');
     answersDiv.classList.remove('hidden');
     event.preventDefault();
