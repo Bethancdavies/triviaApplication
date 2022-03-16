@@ -1,8 +1,5 @@
 function runTriviaApp() {
   //API constants
-  let userSelections;
-
-  const url = `https://the-trivia-api.com/questions?categories=${userSelections}&limit=6`;
 
   const userSelectionsList = document.querySelectorAll("input[type='checkbox']");
 
@@ -57,24 +54,28 @@ function runTriviaApp() {
   userSelectionsList.forEach((element) => {
     element.addEventListener('change', getUserChoice);
   });
-
+  let userSelections;
+  let userSelectionsUnformatted;
+  let url;
   function getUserChoice() {
     userSelections = '';
+    userSelectionsUnformatted = '';
     userSelectionsList.forEach((option) => {
       if (option.checked) {
-        userSelections += option.value;
+        userSelectionsUnformatted += option.value;
       }
     });
-    if (userSelections !== '') {
+    if (userSelectionsUnformatted !== '') {
+      userSelections = userSelectionsUnformatted.slice(0, -1);
+      url = `https://the-trivia-api.com/questions?categories=${userSelections}&limit=6`;
       getQuestions();
     } else {
       alert('please make a selection');
     }
-    console.log(userSelectionsList);
-    console.log(userSelections);
   }
   const getQuestions = async () => {
-    const triviaQuestionCall = await fetch(url); //often gives CORS error, fix in future via server
+    const triviaQuestionCall = await fetch(url);
+    console.log(userSelections + 'from asyncs'); //often gives CORS error, fix in future via server
     const triviaJson = await triviaQuestionCall.json(); //extract JSON from the http response
     // gets labels for questions and updates text content
     function getLabels() {
