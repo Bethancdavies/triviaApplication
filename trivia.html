@@ -24,9 +24,10 @@
     1 choose-all-that-apply (checkboxes, 4 options min, one answer should be "None of the above"). No part-points for semi-correct answers. -->
 
       <form class="needs-validation" novalidate>
-        <!-- checkboxes (4 options, 1 must be none of the above) -->
+        <!-- choose type of trivia -->
         <fieldset id="trivaTopicFieldset">
-          <legend id="trivaTopicLegend">What topic of Trivia Questions (Select as many as neeeded):</legend>
+          <legend id="trivaTopicLegend">Pick your Topic!</legend>
+          <span class="error hidden" id="topicErrorSpan">Please choose a topic first</span>
           <div class="form-check">
             <input class="form-check-input" type="checkbox" value="music," id="music" />
             <label class="form-check-label" for="music"> Music </label>
@@ -48,83 +49,88 @@
             <label class="form-check-label" for="film"> Film And TV </label>
           </div>
         </fieldset>
-        <!-- text box 1  -->
-        <div class="form-group">
-          <label id="apiTriviaText1Label">Question</label>
-          <input type="text" class="form-control" id="apiTriviaText1" required />
-        </div>
-        <!-- text box 2 -->
-        <div class="form-group">
-          <label id="apiTriviaText2Label">Question</label>
-          <input type="text" class="form-control" id="apiTriviaText2" required />
-        </div>
+        <!-- Rest of Trivia  -->
+        <div class="hidden" id="apiTriviaSection">
+          <h2>Questions</h2>
+          <!-- text box 1  -->
+          <div class="form-group">
+            <label id="apiTriviaText1Label">Question</label>
+            <input type="text" class="form-control" id="apiTriviaText1" required />
+          </div>
+          <!-- text box 2 -->
+          <div class="form-group">
+            <label id="apiTriviaText2Label">Question</label>
+            <input type="text" class="form-control" id="apiTriviaText2" required />
+          </div>
 
-        <!-- dropdown 1  -->
-        <fieldset>
-          <div class="form-group">
-            <legend for="apiTriviaSelect1" id="apiTriviaSelect1Label">Legend</legend>
-            <select class="form-control" id="apiTriviaSelect1" required>
-              <option></option>
-              <option></option>
-              <option></option>
-              <option></option>
-              <option></option>
-            </select>
-          </div>
-        </fieldset>
-        <!-- dropdown 2 -->
-        <fieldset>
-          <div class="form-group">
-            <legend id="apiTriviaSelect2Label">Legend</legend>
-            <select class="form-control" id="apiTriviaSelect2" required>
-              <option></option>
-              <option></option>
-              <option></option>
-              <option></option>
-              <option></option>
-            </select>
-          </div>
-        </fieldset>
-        <!-- radio buttons 1 -->
-        <fieldset id="apiTriviaRadio1">
-          <legend id="apiTriviaRadio1Legend">Legend</legend>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="apiTriviaRadio1" id="a" required />
-            <label class="form-check-label" for="a"></label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="apiTriviaRadio1" id="b" required />
-            <label class="form-check-label" for="b"> </label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="apiTriviaRadio1" id="c" required />
-            <label class="form-check-label" for="c"> </label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="apiTriviaRadio1" id="d" required />
-            <label class="form-check-label" for="d"></label>
-          </div>
-        </fieldset>
-        <fieldset id="apiTriviaRadio2">
-          <legend id="apiTriviaRadio2Legend">Legend</legend>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="apiTriviaRadio2" id="e" />
-            <label class="form-check-label" for="e"></label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="apiTriviaRadio2" id="f" />
-            <label class="form-check-label" for="f"> </label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="apiTriviaRadio2" id="g" />
-            <label class="form-check-label" for="g"></label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="apiTriviaRadio2" id="h" />
-            <label class="form-check-label" for="h"> </label>
-          </div>
-        </fieldset>
-        <button class="btn btn-primary" type="submit">Submit form</button>
+          <!-- dropdown 1  -->
+          <fieldset>
+            <div class="form-group">
+              <legend for="apiTriviaSelect1" id="apiTriviaSelect1Label">Legend</legend>
+              <select class="form-control" id="apiTriviaSelect1" required>
+                <option></option>
+                <option></option>
+                <option></option>
+                <option></option>
+                <option></option>
+              </select>
+            </div>
+          </fieldset>
+          <!-- dropdown 2 -->
+          <fieldset>
+            <div class="form-group">
+              <legend id="apiTriviaSelect2Label">Legend</legend>
+              <select class="form-control" id="apiTriviaSelect2" required>
+                <option></option>
+                <option></option>
+                <option></option>
+                <option></option>
+                <option></option>
+              </select>
+            </div>
+          </fieldset>
+          <!-- radio buttons 1 -->
+          <fieldset id="apiTriviaRadio1">
+            <legend id="apiTriviaRadio1Legend">Legend</legend>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="apiTriviaRadio1" id="a" required />
+              <label class="form-check-label" for="a"></label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="apiTriviaRadio1" id="b" required />
+              <label class="form-check-label" for="b"> </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="apiTriviaRadio1" id="c" required />
+              <label class="form-check-label" for="c"> </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="apiTriviaRadio1" id="d" required />
+              <label class="form-check-label" for="d"></label>
+            </div>
+          </fieldset>
+          <fieldset id="apiTriviaRadio2">
+            <legend id="apiTriviaRadio2Legend">Legend</legend>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="apiTriviaRadio2" id="e" />
+              <label class="form-check-label" for="e"></label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="apiTriviaRadio2" id="f" />
+              <label class="form-check-label" for="f"> </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="apiTriviaRadio2" id="g" />
+              <label class="form-check-label" for="g"></label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="apiTriviaRadio2" id="h" />
+              <label class="form-check-label" for="h"> </label>
+            </div>
+          </fieldset>
+          <button class="btn btn-primary" type="submit">Submit form</button>
+          <span class="hidden red" id="submitError">Please answer all questions!</span>
+        </div>
       </form>
       <div class="container hidden" id="myResults">
         <h2>Your Results</h2>

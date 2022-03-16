@@ -1,5 +1,8 @@
 function runTriviaApp() {
   //API constants
+  let userSelections;
+  let userSelectionsUnformatted;
+  let url;
 
   const userSelectionsList = document.querySelectorAll("input[type='checkbox']");
 
@@ -28,7 +31,6 @@ function runTriviaApp() {
   let arrayOfAnswers;
 
   //user guesses variables
-
   let userapiTriviaText1;
   let userapiTriviaText2;
   let userapiTriviaSelect1;
@@ -40,10 +42,15 @@ function runTriviaApp() {
   const form = document.querySelector('.needs-validation');
   const results = document.querySelector('#myResults');
   const answersDiv = document.querySelector('#answersDiv');
+  const submitErrorSpan = document.querySelector('#submitError');
+  const topicErrorSpan = document.querySelector('#topicErrorSpan');
   // submit, play again, and see answer buttons
   const seeAnswersButton = document.querySelector('#seeAnswers');
   const playAgainButton = document.querySelectorAll('.playAgain');
 
+  //booleans
+  let hasTriedToSubmit;
+  let hasShown;
   //Event Listeners
   seeAnswersButton.addEventListener('click', seeAnswers);
   playAgainButton.forEach((button) => {
@@ -54,9 +61,7 @@ function runTriviaApp() {
   userSelectionsList.forEach((element) => {
     element.addEventListener('change', getUserChoice);
   });
-  let userSelections;
-  let userSelectionsUnformatted;
-  let url;
+
   function getUserChoice() {
     userSelections = '';
     userSelectionsUnformatted = '';
@@ -69,14 +74,20 @@ function runTriviaApp() {
       userSelections = userSelectionsUnformatted.slice(0, -1);
       url = `https://the-trivia-api.com/questions?categories=${userSelections}&limit=6`;
       getQuestions();
+      topicErrorSpan.classList.add('hidden');
     } else {
-      alert('please make a selection');
+      topicErrorSpan.classList.remove('hidden');
     }
+  }
+  let trivaSection = document.querySelector('#apiTriviaSection');
+  function showSomething() {
+    trivaSection.classList.remove('hidden');
   }
   const getQuestions = async () => {
     const triviaQuestionCall = await fetch(url);
-    console.log(userSelections + 'from asyncs'); //often gives CORS error, fix in future via server
-    const triviaJson = await triviaQuestionCall.json(); //extract JSON from the http response
+    const triviaJson = await triviaQuestionCall.json().then(showSomething()); //extract JSON from the http response
+    hasTriedToSubmit = false;
+    hasShown = false;
     // gets labels for questions and updates text content
     function getLabels() {
       for (let index = 0; index < triviaJson.length; index++) {
@@ -136,9 +147,12 @@ function runTriviaApp() {
 
     function validateTextOrSelect(element) {
       let partOneFormValid = false;
-      if (element.value == ' ' || !isNaN(element.value)) {
-        element.parentElement.focus();
-        element.parentElement.classList.add('error');
+
+      if (element.value === '' || element.value === ' ') {
+        if (hasTriedToSubmit) {
+          element.parentElement.focus();
+          element.parentElement.classList.add('error');
+        }
       } else {
         element.parentElement.classList.remove('error');
         partOneFormValid = true;
@@ -153,7 +167,7 @@ function runTriviaApp() {
           legend.classList.remove('error');
           partTwoFormValid = true;
           return partTwoFormValid;
-        } else {
+        } else if (hasTriedToSubmit) {
           legend.classList.add('error');
         }
       }
@@ -161,10 +175,11 @@ function runTriviaApp() {
     }
 
     if (check1 & check2 & check3 & check4 & check5 & check6) {
+      submitErrorSpan.classList.add('hidden');
       return true;
     }
   }
-  let hasTriedToSubmit = false;
+
   function handleSubmit(event) {
     hasTriedToSubmit = true;
     event.preventDefault;
@@ -172,6 +187,7 @@ function runTriviaApp() {
       console.log('valid');
       calculateScore();
     } else {
+      submitErrorSpan.classList.remove('hidden');
       console.log('invalid');
     }
     event.preventDefault();
@@ -181,7 +197,7 @@ function runTriviaApp() {
     function calculateScore() {
       let score = 0;
       let correctAnswers = 0;
-      const totalQuestions = 7;
+      const totalQuestions = 6;
       // get value of .value questions
       userapiTriviaText1 = document.querySelector('#apiTriviaText1').value;
       userapiTriviaText2 = document.querySelector('#apiTriviaText2').value;
@@ -234,7 +250,7 @@ function runTriviaApp() {
     results.classList.remove('hidden');
     form.classList.add('hidden');
   }
-  let hasShown = false;
+
   function seeAnswers() {
     hasShown = true;
     // create array of answers
@@ -256,9 +272,9 @@ function runTriviaApp() {
       let populatedText = document.querySelector('#populatedText');
       populatedText.parentNode.removeChild(populatedText);
     }
-
     form.reset();
     getQuestions();
+    submitErrorSpan.classList.add('hidden');
     answersDiv.classList.add('hidden');
     results.classList.add('hidden');
     form.classList.remove('hidden');
