@@ -59,6 +59,14 @@ h1 {
   text-align: center;
   font-size: 5rem;
 }
+h2 {
+  text-align: center;
+}
+p,
+option,
+#triviaTopicDiv label {
+  font-size: 1.6rem;
+}
 
 /* content layout */
 
@@ -86,10 +94,6 @@ h1 {
   font-size: 2.5rem;
 }
 
-#triviaTopicDiv label {
-  font-size: 2rem;
-}
-
 #triviaTopicDiv .form-check,
 #apiTriviaRadio1 .form-check,
 #apiTriviaRadio2 .form-check {
@@ -102,4 +106,27 @@ h1 {
 #apiTriviaRadio1 label,
 #apiTriviaRadio2 label {
   font-size: 1.5rem;
+}
+
+/* My Results stying */
+
+#myResults {
+  background: rgba(254, 174, 175, 0.4);
+  margin-top: 20px;
+  width: 80%;
+  margin: 50px auto;
+  border: 4px dotted black;
+  padding: 15px;
+  border-radius: 25px;
+}
+/* Answers Styling */
+.question {
+  text-decoration: underline;
+}
+#answersDiv {
+  background: rgba(254, 174, 175, 0.4);
+  margin: 50px auto;
+  border: 4px dotted black;
+  padding: 15px;
+  border-radius: 25px;
 }

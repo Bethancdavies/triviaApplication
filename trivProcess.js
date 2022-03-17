@@ -270,13 +270,14 @@ function runTriviaApp() {
     arrayOfAnswers = [correctAnswerText1, correctAnswerText2, correctAnswerSelect1, correctAnswerSelect2, correctAnswerRadio1, correctAnswerRadio2];
     let output = `<div id = "populatedText">`;
     for (let index = 0; index < arrayOfLabels.length; index++) {
-      output += `<p class="question">Question: ${index + 1}: ${arrayOfLabels[index].innerHTML}</p> 
+      output += `<p class="question">Question ${index + 1}: ${arrayOfLabels[index].innerHTML}</p> 
       <p class="answer">Answer: ${arrayOfAnswers[index]} </p> `;
     }
     output += `</div>`;
     answersDiv.insertAdjacentHTML('afterbegin', output);
     results.classList.add('hidden');
     answersDiv.classList.remove('hidden');
+    output = ''; // Clear String each time
   }
 
   function playAgain(event) {
