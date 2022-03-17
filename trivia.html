@@ -5,6 +5,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <!-- Bootstrap CSS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Hubballi&display=swap" rel="stylesheet" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
@@ -13,10 +16,10 @@
     />
     <link rel="stylesheet" href="./custom.css" />
 
-    <title>Hello, world!</title>
+    <title>Trivia Game</title>
   </head>
   <body>
-    <div class="container">
+    <div class="container" id="container">
       <h1>Trivia Game</h1>
       <!-- 2 text boxes
     2 select dropdowns (4 options min)
@@ -27,8 +30,8 @@
         <div id="triviaTopicDiv">
           <!-- choose type of trivia -->
           <fieldset>
-            <legend id="trivaTopicLegend">Pick your Topic!</legend>
-            <span class="error hidden" id="topicErrorSpan">Please choose a topic first</span>
+            <legend id="trivaTopicLegend">Pick your Topic(s)!</legend>
+            <span class="error hidden" id="topicErrorSpan">Please choose atleast ONE topic first</span>
             <div class="form-check">
               <input class="form-check-input" type="checkbox" value="music," id="music" />
               <label class="form-check-label" for="music"> Music </label>
@@ -53,7 +56,7 @@
           <button type="button" class="btn btn-primary" id="submitTopics">Submit</button>
         </div>
 
-        <!-- Rest of Trivia  -->
+        <!-- Rest of  (in div with class of hidden)  -->
         <div class="hidden" id="apiTriviaSection">
           <h2>Questions</h2>
           <!-- text box 1  -->

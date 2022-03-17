@@ -64,12 +64,12 @@ function runTriviaApp() {
 
   submitTopicsButton.addEventListener('click', getUserChoice);
 
-  function showSomething() {
+  function showTriviaQuestions() {
     trivaSectionDiv.classList.remove('hidden');
   }
   const getQuestions = async () => {
     const triviaQuestionCall = await fetch(url);
-    const triviaJson = await triviaQuestionCall.json().then(showSomething()); //extract JSON from the http response
+    const triviaJson = await triviaQuestionCall.json().then(showTriviaQuestions()); //extract JSON from the http response
     // gets labels for questions and updates text content
     function getLabels() {
       for (let index = 0; index < triviaJson.length; index++) {

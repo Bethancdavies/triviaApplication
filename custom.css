@@ -1,3 +1,4 @@
+/* error, colors and hidden classes */
 .hidden {
   display: none;
 }
@@ -12,4 +13,87 @@
 }
 .green {
   color: green;
+}
+
+/* Container Div Styling - chose aquamarine green, 
+ div already centred with bootstrap class, 
+ added 10px margin bottom for style choice  */
+#container {
+  border: 1px solid aquamarine;
+  padding: 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 800px;
+  min-height: calc(100vh - 20px);
+}
+
+/* text and headings styling */
+body {
+  font-size: 62.5%;
+  background: rgba(12, 123, 231, 0.6);
+}
+#container h1,
+label,
+legend,
+option,
+button,
+h2,
+select,
+p,
+span {
+  font-family: 'Hubballi', Arial, Helvetica, sans-serif;
+}
+
+legend,
+#apiTriviaText1Label,
+#apiTriviaText2Label {
+  font-size: 2rem;
+}
+h1 {
+  text-align: center;
+  font-size: 5rem;
+}
+
+/* content layout */
+
+/* Choose Your topic Layout */
+#triviaTopicDiv {
+  margin-top: 20px;
+  width: 80%;
+  margin: 50px auto;
+  border: 4px dotted black;
+  padding: 15px;
+  background: url(./images/towfiqu-barbhuiya-oZuBNC-6E2s-unsplash.jpg);
+  background-position: -50px;
+  border-radius: 25px;
+}
+
+#triviaTopicDiv button {
+  font-size: 1.5rem;
+  display: block;
+  margin: 20px auto;
+  width: 150px;
+  height: 80px;
+}
+#triviaTopicDiv legend {
+  text-align: center;
+  font-size: 2.5rem;
+}
+
+#triviaTopicDiv label {
+  font-size: 2rem;
+}
+
+#triviaTopicDiv .form-check,
+#apiTriviaRadio1 .form-check,
+#apiTriviaRadio2 .form-check {
+  display: flex;
+  align-items: center;
+}
+
+/* Trivia Question Page Styling */
+
+#apiTriviaRadio1 label,
+#apiTriviaRadio2 label {
+  font-size: 1.5rem;
 }
