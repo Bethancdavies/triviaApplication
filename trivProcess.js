@@ -24,13 +24,16 @@ function runTriviaApp() {
   const select2Label = document.querySelector('#apiTriviaSelect2Label');
   const radio1Label = document.querySelector('#apiTriviaRadio1Legend');
   const radio2Label = document.querySelector('#apiTriviaRadio2Legend');
+
   // array of labels
   const arrayOfLabels = [text1Label, text2Label, select1Label, select2Label, radio1Label, radio2Label];
+
   // option arrays (populated to include incorrect and correct answers for multiple choice inputs)
   const answers1 = document.querySelector('#apiTriviaSelect1').options;
   const answers2 = document.querySelector('#apiTriviaSelect2').options;
   const answers3 = document.querySelectorAll('input[name = apiTriviaRadio1]');
   const answers4 = document.querySelectorAll('input[name = apiTriviaRadio2]');
+
   // correct answers variables
   let correctAnswerText1;
   let correctAnswerText2;
@@ -38,6 +41,7 @@ function runTriviaApp() {
   let correctAnswerSelect2;
   let correctAnswerRadio1;
   let correctAnswerRadio2;
+
   // array to hold correct answers
   let arrayOfAnswers;
 
@@ -66,6 +70,7 @@ function runTriviaApp() {
   //booleans
   let hasTriedToSubmit;
   let hasShown;
+
   //Event Listeners
   seeAnswersButton.addEventListener('click', seeAnswers);
   playAgainButton.forEach((button) => {
@@ -82,14 +87,21 @@ function runTriviaApp() {
 
   const getQuestions = async () => {
     const triviaQuestionCall = await fetch(url);
-    const triviaJson = await triviaQuestionCall.json().then(showTriviaQuestions()); //extract JSON from the http response
-    // gets labels for questions and updates text content
+    const triviaJson = await triviaQuestionCall.json().then(showTriviaQuestions());
+    form.reset();
+    // function that gets labels for questions and updates text content
     function getLabels() {
       for (let index = 0; index < triviaJson.length; index++) {
         arrayOfLabels[index].textContent = triviaJson[index].question;
       }
     }
+
+    /* function that gets the incorrect and correct answers, 
+     asigns to an array and updates the forms qustion selections  
+     NOTE: no options given for text boxes, sometimes is not logical
+      */
     getLabels();
+    // passes in the question number and the answerlist to populate
     function getAnswers(questionNumber, answerList) {
       let answers = triviaJson[questionNumber].incorrectAnswers; //capture incorrect answers
       let correctAnswer = triviaJson[questionNumber].correctAnswer; //capture correct answer
@@ -123,7 +135,7 @@ function runTriviaApp() {
       return correctAnswer;
     }
     // call getAnswers and assign the return value of the correct answer to a variable
-    // TO DO: could eventually store in array
+
     correctAnswerText1 = triviaJson[0].correctAnswer;
     correctAnswerText2 = triviaJson[1].correctAnswer;
     correctAnswerSelect1 = getAnswers(2, answers1);
@@ -131,6 +143,8 @@ function runTriviaApp() {
     correctAnswerRadio1 = getAnswers(4, answers3);
     correctAnswerRadio2 = getAnswers(5, answers4);
   };
+
+  // function to get user choice for trivia, if none then do not call API and alert user
   function getUserChoice() {
     userSelections = '';
     userSelectionsUnformatted = '';
@@ -139,6 +153,8 @@ function runTriviaApp() {
         userSelectionsUnformatted += option.value;
       }
     });
+    // if there are selections, remove the last comma from string and update API url
+    // hide the topics and error span if there is chosen, if not add error span back
     if (userSelectionsUnformatted !== '') {
       userSelections = userSelectionsUnformatted.slice(0, -1);
       url = `https://the-trivia-api.com/questions?categories=${userSelections}&limit=6`;
@@ -149,8 +165,13 @@ function runTriviaApp() {
       topicErrorSpan.classList.remove('hidden');
     }
   }
+  /* 
+Function to validate the Form  
+TO DO: refactor the checks, clean up query selectors
+*/
 
   function validate() {
+    // holds check variables for submit
     let check1 = validateTextOrSelect(document.querySelector('#apiTriviaText1'));
     let check2 = validateTextOrSelect(document.querySelector('#apiTriviaText2'));
     let check3 = validateTextOrSelect(document.querySelector('#apiTriviaSelect1'));
@@ -158,20 +179,24 @@ function runTriviaApp() {
     let check5 = validateRadio(document.querySelectorAll('input[name = apiTriviaRadio1]'), radio1Label);
     let check6 = validateRadio(document.querySelectorAll('input[name = apiTriviaRadio2]'), radio2Label);
 
+    /* Function to validate text or select form elements */
     function validateTextOrSelect(element) {
       let partOneFormValid = false;
 
       if (element.value === '' || element.value === ' ') {
         if (hasTriedToSubmit) {
           element.parentElement.focus();
-          element.parentElement.classList.add('error');
+          element.parentElement.classList.add('error'); //add error message
         }
       } else {
-        element.parentElement.classList.remove('error');
+        element.parentElement.classList.remove('error'); //remove error message
         partOneFormValid = true;
       }
       return partOneFormValid;
     }
+    /* 
+    Function to validate radio buttons, ensures atleast one button is clicked, if not add error
+    */
 
     function validateRadio(element, legend) {
       let partTwoFormValid = false;
@@ -186,29 +211,30 @@ function runTriviaApp() {
       }
       return partTwoFormValid;
     }
-
+    // if all checks return true - validate will return true and remove the error message
     if (check1 & check2 & check3 & check4 & check5 & check6) {
       submitErrorSpan.classList.add('hidden');
       return true;
     }
   }
 
+  /* 
+  function to handle the submit of the form, if validate is true - calculateScore(), else show error message
+  */
   function handleSubmit(event) {
     hasTriedToSubmit = true;
-    event.preventDefault;
+    event.preventDefault();
+    event.stopPropagation();
     if (validate()) {
-      console.log('valid');
       calculateScore();
     } else {
       submitErrorSpan.classList.remove('hidden');
-      console.log('invalid');
     }
-    event.preventDefault();
-    event.stopPropagation();
-    // get user entries on submit // validate these before assigning
-
+    /* Function to calculate the score of the trivia, **Called from validate**  
+    gets the user input and compares to api correct answer, if correct +1 to score 
+*/
     function calculateScore() {
-      let score = 0;
+      let score = 0; //score reset to 0
       let correctAnswers = 0;
       const totalQuestions = 6;
       // get value of .value questions
@@ -216,7 +242,6 @@ function runTriviaApp() {
       userapiTriviaText2 = document.querySelector('#apiTriviaText2').value;
       userapiTriviaSelect1 = document.querySelector('#apiTriviaSelect1').value;
       userapiTriviaSelect2 = document.querySelector('#apiTriviaSelect2').value;
-
       //get value of radio buttons
       answers3.forEach((answer) => {
         if (answer.checked) {
@@ -235,17 +260,25 @@ function runTriviaApp() {
       checkAnswers(userapiTriviaSelect2, correctAnswerSelect2);
       checkAnswers(userapiTriviaRadio1, correctAnswerRadio1);
       checkAnswers(userapiTriviaRadio2, correctAnswerRadio2);
+      /* 
+      function that checks correct answer against userInput, if correct +1 to score
+      */
       function checkAnswers(userInput, correctAnswer) {
         if (userInput.toLowerCase() === correctAnswer.toLowerCase()) {
           correctAnswers += 1;
         }
       }
+      // score is given as a percentage to 2 decimal places
       score = ((correctAnswers / totalQuestions) * 100).toFixed(2);
 
+      // showScore is called, passing in the score and the correct answers as params
       showScore(score, correctAnswers);
     }
   }
-  //  function to show the score and the number of correct answers, turns color based on score
+  /* 
+  function to show the score and the number of correct answers, turns color based on score percentage
+  */
+
   function showScore(score, correctAnswers) {
     let correctAnswerSpan = document.querySelector('#numberOfCorrectAnswers');
     correctAnswerSpan.textContent = correctAnswers;
@@ -263,33 +296,36 @@ function runTriviaApp() {
     results.classList.remove('hidden');
     trivaSectionDiv.classList.add('hidden');
   }
-
+  /* function that shows user the answer to questions, using array of questions and array of answers */
   function seeAnswers() {
     hasShown = true;
     // create array of answers
     arrayOfAnswers = [correctAnswerText1, correctAnswerText2, correctAnswerSelect1, correctAnswerSelect2, correctAnswerRadio1, correctAnswerRadio2];
+    // output to populate div
     let output = `<div id = "populatedText">`;
     for (let index = 0; index < arrayOfLabels.length; index++) {
       output += `<p class="question">Question ${index + 1}: ${arrayOfLabels[index].innerHTML}</p> 
       <p class="answer">Answer: ${arrayOfAnswers[index]} </p> `;
     }
     output += `</div>`;
+    // update div content
     answersDiv.insertAdjacentHTML('afterbegin', output);
+    // hide results and show answers
     results.classList.add('hidden');
     answersDiv.classList.remove('hidden');
-    output = ''; // Clear String each time
+    output = ''; // Clear String each time to avoid duplicates on replay
   }
+  /* function to play game again, hides everything and provides user with topic box again */
 
   function playAgain(event) {
-    hasTriedToSubmit = false;
+    hasTriedToSubmit = false; //update booleans each time - flags for error messages and clearing classes
     hasShown = false;
     event.preventDefault();
     if (hasShown) {
       let populatedText = document.querySelector('#populatedText');
       populatedText.parentNode.removeChild(populatedText);
     }
-    form.reset();
-    //remove once submit topics button added
+    // show the topics div and remove everything else on page meant to be hidden
     topicDiv.classList.remove('hidden');
     submitErrorSpan.classList.add('hidden');
     answersDiv.classList.add('hidden');

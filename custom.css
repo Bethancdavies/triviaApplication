@@ -1,7 +1,8 @@
 /* CSS Page for Trivia Application 
 @Since 20220314 
 @author BDavies 
-CUSTOM CSS to override bootsrap defaults
+CUSTOM CSS to override bootsrap defaults 
+TO DO : better overall style in future
 */
 
 /* error, colors and hidden classes */
@@ -77,7 +78,7 @@ option,
   margin: 50px auto;
   border: 4px dotted black;
   padding: 15px;
-  background: url(./images/towfiqu-barbhuiya-oZuBNC-6E2s-unsplash.jpg);
+  background: url(./images/towfiqu-barbhuiya-oZuBNC-6E2s-unsplash.jpg); /* Credit: Towfiqu Barbhuiya*/
   background-position: -50px;
   border-radius: 25px;
 }
@@ -107,6 +108,13 @@ option,
 #apiTriviaRadio2 label {
   font-size: 1.5rem;
 }
+#apiTriviaSection button {
+  font-size: 1.5rem;
+  display: block;
+  margin: 20px auto;
+  width: 150px;
+  height: 80px;
+}
 
 /* My Results stying */
 
@@ -119,6 +127,13 @@ option,
   padding: 15px;
   border-radius: 25px;
 }
+#myResults button {
+  font-size: 1.5rem;
+  display: block;
+  margin: 20px auto;
+  width: 150px;
+  height: 80px;
+}
 /* Answers Styling */
 .question {
   text-decoration: underline;
@@ -129,4 +144,11 @@ option,
   border: 4px dotted black;
   padding: 15px;
   border-radius: 25px;
+}
+#answersDiv button {
+  font-size: 1.5rem;
+  display: block;
+  margin: 20px auto;
+  width: 150px;
+  height: 80px;
 }
