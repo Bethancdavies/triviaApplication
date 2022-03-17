@@ -1,3 +1,15 @@
+/* Trivia Application 
+Uses trivia.co.uk API to get questions and answers to trivia 
+User is prompted for topic and provided questions on topic, 
+trivia game is scored 
+@author BDavies 
+@Since 20220317 
+
+TO DO: 
+-loader for api calls (chain .then)
+- refactor some of the duplicated code 
+*/
+
 function runTriviaApp() {
   //API variables
   let userSelections;
@@ -67,6 +79,7 @@ function runTriviaApp() {
   function showTriviaQuestions() {
     trivaSectionDiv.classList.remove('hidden');
   }
+
   const getQuestions = async () => {
     const triviaQuestionCall = await fetch(url);
     const triviaJson = await triviaQuestionCall.json().then(showTriviaQuestions()); //extract JSON from the http response

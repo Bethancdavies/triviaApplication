@@ -1,3 +1,9 @@
+/* CSS Page for Trivia Application 
+@Since 20220314 
+@author BDavies 
+CUSTOM CSS to override bootsrap defaults
+*/
+
 /* error, colors and hidden classes */
 .hidden {
   display: none;
