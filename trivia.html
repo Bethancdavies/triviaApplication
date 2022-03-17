@@ -24,31 +24,35 @@
     1 choose-all-that-apply (checkboxes, 4 options min, one answer should be "None of the above"). No part-points for semi-correct answers. -->
 
       <form class="needs-validation" novalidate>
-        <!-- choose type of trivia -->
-        <fieldset id="trivaTopicFieldset">
-          <legend id="trivaTopicLegend">Pick your Topic!</legend>
-          <span class="error hidden" id="topicErrorSpan">Please choose a topic first</span>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="music," id="music" />
-            <label class="form-check-label" for="music"> Music </label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="science," id="science" />
-            <label class="form-check-label" for="science"> Science </label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="generalknowledge," id="generalKnowledge" />
-            <label class="form-check-label" for="generalKnowledge"> General Knowledge </label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="society&culture," id="societyAndCulture" />
-            <label class="form-check-label" for="societyAndCulture"> Society And Culture </label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="film&tv," id="filmAndTV" />
-            <label class="form-check-label" for="film"> Film And TV </label>
-          </div>
-        </fieldset>
+        <div id="triviaTopicDiv">
+          <!-- choose type of trivia -->
+          <fieldset>
+            <legend id="trivaTopicLegend">Pick your Topic!</legend>
+            <span class="error hidden" id="topicErrorSpan">Please choose a topic first</span>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="music," id="music" />
+              <label class="form-check-label" for="music"> Music </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="science," id="science" />
+              <label class="form-check-label" for="science"> Science </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="generalknowledge," id="generalKnowledge" />
+              <label class="form-check-label" for="generalKnowledge"> General Knowledge </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="society&culture," id="societyAndCulture" />
+              <label class="form-check-label" for="societyAndCulture"> Society And Culture </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="film&tv," id="filmAndTV" />
+              <label class="form-check-label" for="film"> Film And TV </label>
+            </div>
+          </fieldset>
+          <button type="button" class="btn btn-primary" id="submitTopics">Submit</button>
+        </div>
+
         <!-- Rest of Trivia  -->
         <div class="hidden" id="apiTriviaSection">
           <h2>Questions</h2>

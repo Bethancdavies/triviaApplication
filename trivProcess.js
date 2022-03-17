@@ -1,9 +1,8 @@
 function runTriviaApp() {
-  //API constants
+  //API variables
   let userSelections;
   let userSelectionsUnformatted;
   let url;
-
   const userSelectionsList = document.querySelectorAll("input[type='checkbox']");
 
   // question labels
@@ -42,11 +41,15 @@ function runTriviaApp() {
   const form = document.querySelector('.needs-validation');
   const results = document.querySelector('#myResults');
   const answersDiv = document.querySelector('#answersDiv');
+  const topicDiv = document.querySelector('#triviaTopicDiv');
+  const trivaSectionDiv = document.querySelector('#apiTriviaSection');
+
   const submitErrorSpan = document.querySelector('#submitError');
   const topicErrorSpan = document.querySelector('#topicErrorSpan');
   // submit, play again, and see answer buttons
   const seeAnswersButton = document.querySelector('#seeAnswers');
   const playAgainButton = document.querySelectorAll('.playAgain');
+  const submitTopicsButton = document.querySelector('#submitTopics');
 
   //booleans
   let hasTriedToSubmit;
@@ -58,36 +61,15 @@ function runTriviaApp() {
   });
   form.addEventListener('submit', handleSubmit);
   document.body.addEventListener('change', validate);
-  userSelectionsList.forEach((element) => {
-    element.addEventListener('change', getUserChoice);
-  });
 
-  function getUserChoice() {
-    userSelections = '';
-    userSelectionsUnformatted = '';
-    userSelectionsList.forEach((option) => {
-      if (option.checked) {
-        userSelectionsUnformatted += option.value;
-      }
-    });
-    if (userSelectionsUnformatted !== '') {
-      userSelections = userSelectionsUnformatted.slice(0, -1);
-      url = `https://the-trivia-api.com/questions?categories=${userSelections}&limit=6`;
-      getQuestions();
-      topicErrorSpan.classList.add('hidden');
-    } else {
-      topicErrorSpan.classList.remove('hidden');
-    }
-  }
-  let trivaSection = document.querySelector('#apiTriviaSection');
+  submitTopicsButton.addEventListener('click', getUserChoice);
+
   function showSomething() {
-    trivaSection.classList.remove('hidden');
+    trivaSectionDiv.classList.remove('hidden');
   }
   const getQuestions = async () => {
     const triviaQuestionCall = await fetch(url);
     const triviaJson = await triviaQuestionCall.json().then(showSomething()); //extract JSON from the http response
-    hasTriedToSubmit = false;
-    hasShown = false;
     // gets labels for questions and updates text content
     function getLabels() {
       for (let index = 0; index < triviaJson.length; index++) {
@@ -136,6 +118,24 @@ function runTriviaApp() {
     correctAnswerRadio1 = getAnswers(4, answers3);
     correctAnswerRadio2 = getAnswers(5, answers4);
   };
+  function getUserChoice() {
+    userSelections = '';
+    userSelectionsUnformatted = '';
+    userSelectionsList.forEach((option) => {
+      if (option.checked) {
+        userSelectionsUnformatted += option.value;
+      }
+    });
+    if (userSelectionsUnformatted !== '') {
+      userSelections = userSelectionsUnformatted.slice(0, -1);
+      url = `https://the-trivia-api.com/questions?categories=${userSelections}&limit=6`;
+      getQuestions();
+      topicErrorSpan.classList.add('hidden');
+      topicDiv.classList.add('hidden');
+    } else {
+      topicErrorSpan.classList.remove('hidden');
+    }
+  }
 
   function validate() {
     let check1 = validateTextOrSelect(document.querySelector('#apiTriviaText1'));
@@ -227,7 +227,7 @@ function runTriviaApp() {
           correctAnswers += 1;
         }
       }
-      score = Math.round((correctAnswers / totalQuestions) * 100);
+      score = ((correctAnswers / totalQuestions) * 100).toFixed(2);
 
       showScore(score, correctAnswers);
     }
@@ -248,7 +248,7 @@ function runTriviaApp() {
     }
     //  hide the form and show the results
     results.classList.remove('hidden');
-    form.classList.add('hidden');
+    trivaSectionDiv.classList.add('hidden');
   }
 
   function seeAnswers() {
@@ -257,8 +257,8 @@ function runTriviaApp() {
     arrayOfAnswers = [correctAnswerText1, correctAnswerText2, correctAnswerSelect1, correctAnswerSelect2, correctAnswerRadio1, correctAnswerRadio2];
     let output = `<div id = "populatedText">`;
     for (let index = 0; index < arrayOfLabels.length; index++) {
-      output += `<p>Question: ${index + 1}: ${arrayOfLabels[index].innerHTML}</p> 
-      <p>Answer: ${arrayOfAnswers[index]} </p> `;
+      output += `<p class="question">Question: ${index + 1}: ${arrayOfLabels[index].innerHTML}</p> 
+      <p class="answer">Answer: ${arrayOfAnswers[index]} </p> `;
     }
     output += `</div>`;
     answersDiv.insertAdjacentHTML('afterbegin', output);
@@ -267,17 +267,20 @@ function runTriviaApp() {
   }
 
   function playAgain(event) {
+    hasTriedToSubmit = false;
+    hasShown = false;
     event.preventDefault();
     if (hasShown) {
       let populatedText = document.querySelector('#populatedText');
       populatedText.parentNode.removeChild(populatedText);
     }
     form.reset();
-    getQuestions();
+    //remove once submit topics button added
+    topicDiv.classList.remove('hidden');
     submitErrorSpan.classList.add('hidden');
     answersDiv.classList.add('hidden');
     results.classList.add('hidden');
-    form.classList.remove('hidden');
+    trivaSectionDiv.classList.add('hidden'); // this is to be changed
   }
 }
 runTriviaApp();
