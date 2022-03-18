@@ -60,6 +60,7 @@ function runTriviaApp() {
   const topicDiv = document.querySelector('#triviaTopicDiv');
   const trivaSectionDiv = document.querySelector('#apiTriviaSection');
 
+  //error span
   const submitErrorSpan = document.querySelector('#submitError');
   const topicErrorSpan = document.querySelector('#topicErrorSpan');
   // submit, play again, and see answer buttons
