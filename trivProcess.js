@@ -298,6 +298,10 @@ TO DO: refactor the checks, clean up query selectors
   }
   /* function that shows user the answer to questions, using array of questions and array of answers */
   function seeAnswers() {
+    if (hasShown) {
+      document.querySelector('.populatedText').remove();
+      output = '';
+    }
     hasShown = true;
     // create array of answers
     arrayOfAnswers = [correctAnswerText1, correctAnswerText2, correctAnswerSelect1, correctAnswerSelect2, correctAnswerRadio1, correctAnswerRadio2];
@@ -313,7 +317,7 @@ TO DO: refactor the checks, clean up query selectors
     // hide results and show answers
     results.classList.add('hidden');
     answersDiv.classList.remove('hidden');
-    output = ''; // Clear String each time to avoid duplicates on replay
+    output = '';
   }
   /* function to play game again, hides everything and provides user with topic box again */
 
